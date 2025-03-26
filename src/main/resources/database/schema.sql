@@ -93,3 +93,10 @@ CREATE INDEX idx_employee_email ON employees(email);
 CREATE INDEX idx_employee_name ON employees(last_name, first_name);
 CREATE INDEX idx_address_zipcode ON address(zipcode);
 CREATE INDEX idx_division_name ON division(name);
+
+-- Add role constraint
+ALTER TABLE employees
+ADD CONSTRAINT chk_role CHECK (role IN ('admin', 'employee'));
+
+-- Create index for login performance
+CREATE INDEX idx_employee_auth ON employees(empid, password, role);

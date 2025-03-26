@@ -1,27 +1,36 @@
 package com.companyz.services;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.companyz.security.SecurityContext;
+import java.sql.*;
 
 public class UserAuth {
-
- 
     public static boolean login(String empId, String password, String role) {
-        try (Connection conn = DatabaseConnector.getConnection()) {
-    
-            String query = "SELECT * FROM employees WHERE empid = ? AND password = ? AND role = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
+        String query = "SELECT empid, role FROM employees WHERE empid = ? AND password = ? AND role = ?";
+        
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
             stmt.setString(1, empId);
-            stmt.setString(2, password);
-            stmt.setString(3, role);
-
-            // Execute query
+            stmt.setString(2, hashPassword(password)); // TODO: Implement proper password hashing
+            stmt.setString(3, role.toLowerCase());
+            
             ResultSet rs = stmt.executeQuery();
-            return rs.next(); 
-        } catch (Exception e) {
+            if (rs.next()) {
+                SecurityContext.setCurrentUser(rs.getString("empid"), rs.getString("role"));
+                return true;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false;  
         }
+        return false;
+    }
+
+    public static void logout() {
+        SecurityContext.clearCurrentUser();
+    }
+
+    private static String hashPassword(String password) {
+        // TODO: Implement proper password hashing
+        return password;
     }
 }

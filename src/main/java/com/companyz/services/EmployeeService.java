@@ -2,6 +2,7 @@ package com.companyz.services;
 
 import com.companyz.database.DatabaseConnector;
 import com.companyz.models.*;
+import com.companyz.security.SecurityContext;
 import java.sql.*;
 import java.util.*;
 
@@ -40,6 +41,10 @@ public class EmployeeService {
     }
 
     public static Employee getEmployee(String empId) {
+        if (!SecurityContext.isAdmin() && 
+            !empId.equals(SecurityContext.getCurrentEmpId())) {
+            throw new SecurityException("Access denied");
+        }
         String query = "SELECT e.*, d.name AS division " +
                        "FROM employees e " +
                        "LEFT JOIN employee_division ed ON e.empid = ed.empid " +
@@ -121,6 +126,9 @@ public class EmployeeService {
     }
 
     public static boolean createEmployee(Employee emp, String divisionId) {
+        if (!SecurityContext.isAdmin()) {
+            throw new SecurityException("Only admins can create employees");
+        }
         Connection conn = null;
         try {
             conn = DatabaseConnector.getConnection();
@@ -155,6 +163,9 @@ public class EmployeeService {
     }
 
     public static boolean updateEmployeeSalary(String empId, double newSalary) {
+        if (!SecurityContext.isAdmin()) {
+            throw new SecurityException("Only admins can update salaries");
+        }
         String query = "UPDATE employees SET salary = ? WHERE empid = ?";
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {

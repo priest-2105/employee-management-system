@@ -1,8 +1,10 @@
 package com.companyz.controllers;
 
 import com.companyz.services.UserAuth;
+import com.companyz.security.SecurityContext;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
@@ -14,6 +16,7 @@ public class LoginController {
     @FXML private TextField txtEmpId;
     @FXML private PasswordField txtPassword;
     @FXML private ComboBox<String> cbRole;
+    @FXML private Label lblError;
 
     @FXML
     private void handleLogin() {
@@ -28,7 +31,8 @@ public class LoginController {
             System.out.println("Login success for role: " + role);
             loadDashboard(role, empId);
         } else {
-            System.out.println("Invalid credentials!");
+            lblError.setText("Invalid credentials!");
+            lblError.setVisible(true);
         }
     }
 
