@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
 <VBox spacing="10" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.companyz.controllers.EmployeeController"
-      alignment="CENTER" >
-    <Label text="Employee Dashboard" style="-fx-font-size: 16;" />
-    <Label fx:id="lblWelcome"/>
-    <Label fx:id="lblEmpInfo"/>
-    <Label fx:id="lblAddress"/>
-    <Label fx:id="lblPayrollHistory"/>
+      alignment="CENTER" padding="20">
+      
+    <Label text="Employee Dashboard" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    
+    <!-- Personal Information Section -->
+    <TitledPane text="Personal Information" expanded="true">
+        <GridPane hgap="10" vgap="5">
+            <Label text="Employee ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="lblEmpId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            
+            <Label text="Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="lblName" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            
+            <Label text="Hire Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="lblHireDate" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            
+            <Label text="Division:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="lblDivision" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            
+            <Label text="Current Title:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="lblJobTitle" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        </GridPane>
+    </TitledPane>
+    
+    <!-- Address Section -->
+    <TitledPane text="Address Information" expanded="true">
+        <GridPane hgap="10" vgap="5">
+            <Label text="Street:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="lblStreet" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            
+            <Label text="City:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="lblCity" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            
+            <Label text="State:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="lblState" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            
+            <Label text="Zip Code:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="lblZipCode" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+    </TitledPane>
+    
+    <!-- Payroll History Section -->
+    <TitledPane text="Payroll History" expanded="true">
+        <TableView fx:id="tblPayroll">
+            <columns>
+                <TableColumn fx:id="colPayDate" text="Pay Date"/>
+                <TableColumn fx:id="colGrossPay" text="Gross Pay"/>
+                <TableColumn fx:id="colFedTax" text="Federal Tax"/>
+                <TableColumn fx:id="colStateTax" text="State Tax"/>
+                <TableColumn fx:id="colDeductions" text="Deductions"/>
+                <TableColumn fx:id="colNetPay" text="Net Pay"/>
+            </columns>
+        </TableView>
+    </TitledPane>
 </VBox>
